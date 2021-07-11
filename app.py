@@ -11,29 +11,53 @@ import requests
 matplotlib.use('Agg')
 app = Flask(__name__) #do not change this
 
+
 #insert the scrapping here
-url_get = requests.get('____')
+url_get = requests.get('https://www.imdb.com/search/title/?release_date=2021-01-01,2021-12-31')
 soup = BeautifulSoup(url_get.content,"html.parser")
 
 #find your right key here
-____ = soup.find('___')
-___ = ____.find_all('___')
-
-row_length = len(___)
+table = soup.find('div', attrs={'class':'lister-list'})
+list = table.find_all('div', attrs={'class' : 'lister-item mode-advanced'})
+row_length = len(list)
 
 temp = [] #initiating a list 
 
-for i in range(1, row_length):
+for i in range(0, row_length):
 #insert the scrapping process here
+    header = list[i].find('h3', attrs = {'class':'lister-item-header'})
+    judul = header.find('a').text
+    try:
+        rating_list = list[i].find('div', attrs={'class':'inline-block ratings-imdb-rating'})
+        rating = rating_list.find('strong').text.strip()
+    except:
+        rating = 0
     
-    temp.append((____,____,____)) 
+    try:
+        meta_score = list[i].find('span', {'class':'metascore mixed'}).text.strip()
+    except:
+        meta_score = 0
+        
+        
+    votes_bar = list[i].find('p', {'class':'sort-num_votes-visible'})
+    
+    try:
+        votes = votes_bar.find('span', attrs={'name':'nv'}).text.strip().replace(',', '.')
+    except:
+        votes = 0
 
-temp = temp[::-1]
+    genres = list[i].find('span', attrs={'class':'genre'}).text.strip().split(', ')
+        
+    temp.append((judul, rating, meta_score, votes))
 
 #change into dataframe
-data = pd.DataFrame(____, columns = ('____','_____','_____'))
+df = pd.DataFrame(temp, columns=('Tittle', 'Rating', 'MetaScore', 'Vote'))
 
 #insert data wrangling here
+df['Rating'] = df['Rating'].astype('float64')
+df['MetaScore'] = df['MetaScore'].astype('float64')
+df['Vote'] = df['Vote'].astype('float64')
+df = df.set_index('Tittle', drop=True).sort_values(by = 'Vote', ascending=False)
 
 
 #end of data wranggling 
@@ -41,10 +65,10 @@ data = pd.DataFrame(____, columns = ('____','_____','_____'))
 @app.route("/")
 def index(): 
 	
-	card_data = f'{data["____"].mean().round(2)}' #be careful with the " and ' 
-
+	card_data = f'{df["Vote"].max().round(2)}' #be careful with the " and ' 
 	# generate plot
-	ax = ____.plot(figsize = (20,9)) 
+	
+	ax = df['Vote'].head(7).plot(kind = 'barh', figsize = (15,6)) 
 	
 	# Rendering plot
 	# Do not change this

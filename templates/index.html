@@ -15,10 +15,10 @@
 					<br>
 					<br>
 					<h1 class="mb-2">
-						This is the title 
+						Most Popular movies 2021 by Vote 
 					</h1>
 					<h3>
-						Reported Period: insert the data period here
+						Reported Period: 2021
 					</h3>
 					<br>
 				</div>
@@ -34,7 +34,7 @@
 							{{ card_data }}
 						</h2>
 						<h4 class="card-category">
-							card title here
+							Highest Vote
 						</h4>
 					</div>
 				</div>
@@ -55,16 +55,16 @@
 				<!-- Tab content -->
 				<div id="profile" class="tabcontent">
 					<br>
-					<h3 style="color: #333333;text-align:center">plot title here</h3>
-					<div class="img-container"">
+					<h3 style="color: #333333;text-align:center">Movie by Vote</h3>
+					<div class="img-container">
 						{% if funded_plot != None %}
-					  <img src="data:image/png;base64,{{ plot_result }}" >
+						<img src="data:image/png;base64,{{ plot_result }}" >
 						{% endif %}
 					</div>
 				</div>
 				<div id="Own" class="tabcontent">
 				  <!-- Define your own analysis for extra challange -->
-
+				  
 				</div>
 			</div>
 		</div>

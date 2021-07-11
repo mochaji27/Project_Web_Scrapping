@@ -1,0 +1,4 @@
+name: WebScrapping
+channels:
+  - defaults
+prefix: C:\Users\LENOVO\anaconda3\envs\WebScrapping
