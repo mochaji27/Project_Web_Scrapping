@@ -68,7 +68,7 @@ def index():
 	card_data = f'{df["Vote"].max().round(2)}' #be careful with the " and ' 
 	# generate plot
 	
-	ax = df['Vote'].head(7).plot(kind = 'barh', figsize = (15,6)) 
+	ax = df['Vote'].head(7).sort_values(ascending=True).plot(kind = 'barh', figsize = (15,5)) 
 	
 	# Rendering plot
 	# Do not change this
